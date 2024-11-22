@@ -1,43 +1,43 @@
 -- Get all dealerships
-select *
-from dealerships;
+SELECT *
+FROM dealerships;
 
 -- Find all vehicles for dealership
-select * 
-from vehicles as v
-inner join inventory as i
-		on v.vin = i.vin
-        inner join dealerships as d
-				on i.dealership_id = d.dealership_id
-
-where d.dealership_id = 1;
+SELECT * 
+FROM vehicles AS v
+INNER JOIN inventory AS i
+		ON v.vin = i.vin
+        INNER JOIN dealerships AS d
+				ON i.dealership_id = d.dealership_id
+WHERE d.dealership_id = 1;
 
 -- Find a car by vin
-select *
-from vehicles
-where vin = '10112';
+SELECT *
+FROM vehicles
+WHERE vin = '2G1FB1E30H9187654';
 
 -- Find dealership where vehicles is located
-select name
-from dealerships as d
-inner join inventory as i
-		on d.dealership_id = i.dealership_id
-where vin = '10112';
+SELECT name
+FROM dealerships AS d
+INNER JOIN inventory AS i
+		ON d.dealership_id = i.dealership_id
+WHERE vin = '2G1FB1E30H9187654';
 
 -- All dealerships with a type of car
-select *
-from vehicles as v
-inner join inventory as i
-		on v.vin = i.vin
-        inner join dealerships as d
-				on i.dealership_id = d.dealership_id
-where v.color = 'Red' and v.make = 'Ford' and v.model = 'Explorer';
+SELECT *
+FROM dealerships AS d
+INNER JOIN inventory AS i
+		ON d.dealership_id = i.dealership_id
+        INNER JOIN vehicles AS v
+				ON i.vin = v.vin
+WHERE v.color = 'Red' AND v.make = 'Ford' AND v.model = 'Explorer';
+
 
 -- Sales info for a specific dealer for a range of dates
-select *
-from dealerships as d
-inner join sales_contracts as s
-		on d.dealership_id = s.id
-where d.dealership_id = 1  and s.contract_date between '2020-01-01' and '2021-12-31';
-	
-		
+SELECT *
+FROM dealerships AS d
+INNER JOIN inventory AS i
+		ON i.dealership_id = d.dealership_id
+INNER JOIN sales_contracts AS s
+		ON i.vin = s.vin
+WHERE d.dealership_id = 1 AND s.contract_date BETWEEN '2020-01-01' AND '2021-12-31';

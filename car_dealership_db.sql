@@ -1,93 +1,109 @@
 -- Drop existing database if exists
-drop database if exists dealership;
-create database if not exists dealership;
-use dealership;
+DROP DATABASE IF EXISTS dealership;
+CREATE DATABASE IF NOT EXISTS dealership;
+USE dealership;
 
 -- Dealerships Table
-create table `dealerships` (
-    `dealership_id` integer not null auto_increment,
-    `name` varchar(50),
-    `address` varchar(50),
-    `phone` varchar(12),
-    constraint `pk_dealerships` primary key (`dealership_id`)
+CREATE TABLE `dealerships` (
+    `dealership_id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(50),
+    `address` VARCHAR(50),
+    `phone` VARCHAR(12),
+    CONSTRAINT `pk_dealerships` PRIMARY KEY (`dealership_id`)
 );
 
 -- Vehicles table
-create table `vehicles` (
-    `vin` varchar(20) not null,
-    `year` integer not null,
-    `make` varchar(20) not null,
-    `model` varchar(20) not null,
-    `type` varchar(20) not null,
-    `color` varchar(20) not null,
-    `odometer` integer not null,
-    `price` float not null,
-    `sold` bool not null,
-    constraint `pk_vehicles` primary key(`vin`)
+CREATE TABLE `vehicles` (
+    `vin` VARCHAR(20) NOT NULL,
+    `year` INTEGER NOT NULL,
+    `make` VARCHAR(20) NOT NULL,
+    `model` VARCHAR(20) NOT NULL,
+    `type` VARCHAR(20) NOT NULL,
+    `color` VARCHAR(20) NOT NULL,
+    `odometer` INTEGER NOT NULL,
+    `price` FLOAT NOT NULL,
+    `sold` BOOL NOT NULL,
+    CONSTRAINT `pk_vehicles` PRIMARY KEY(`vin`)
 );
 
 -- Inventory table
-create table `inventory`(
-    `dealership_id` integer not null,
-    `vin` varchar(20) not null,
-    constraint `pk_inventory` primary key(`dealership_id`, `vin`),
-    constraint `fk_inventory_dealerships` foreign key (`dealership_id`) references `dealerships`(`dealership_id`),
-    constraint `fk_inventory_vehicles` foreign key (`vin`) references `vehicles`(`vin`)
+CREATE TABLE `inventory`(
+    `dealership_id` INTEGER NOT NULL,
+    `vin` VARCHAR(20) NOT NULL,
+    CONSTRAINT `pk_inventory` PRIMARY KEY(`dealership_id`, `vin`),
+    CONSTRAINT `fk_inventory_dealerships` FOREIGN KEY (`dealership_id`) REFERENCES `dealerships`(`dealership_id`),
+    CONSTRAINT `fk_inventory_vehicles` FOREIGN KEY (`vin`) REFERENCES `vehicles`(`vin`)
 ); 
 
 -- Sales contracts table
-create table `sales_contracts`(
-    `contract_date` date not null,
-    `name` varchar(50) not null,
-    `email` varchar(50) not null,
-    `id` integer not null auto_increment,
-    `vin` varchar(20) not null,
-    `sales_tax` float not null,
-    `recording_fee` float not null,
-    `processing_fee` float not null,
-    `total_cost` float not null,
-    `financed` bool not null,
-    `monthly_payment` float not null,
-    constraint `pk_sales_contracts` primary key(`id`),
-    constraint `fk_sales_contracts` foreign key(`vin`) references `vehicles`(`vin`)
+CREATE TABLE `sales_contracts`(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `contract_date` DATE NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(50) NOT NULL,
+    `vin` VARCHAR(20) NOT NULL,
+    `sales_tax` FLOAT NOT NULL,
+    `recording_fee` FLOAT NOT NULL,
+    `processing_fee` FLOAT NOT NULL,
+    `total_cost` FLOAT NOT NULL,
+    `financed` BOOL NOT NULL,
+    `monthly_payment` FLOAT NOT NULL,
+    CONSTRAINT `pk_sales_contracts` PRIMARY KEY(`id`),
+    CONSTRAINT `fk_sales_contracts` FOREIGN KEY(`vin`) REFERENCES `vehicles`(`vin`)
 );
 
 -- Lease contracts table
-create table `lease_contracts`(
-    `contract_date` date not null, 
-    `name` varchar(50) not null,
-    `email` varchar(50) not null,
-    `id` integer not null auto_increment,
-    `vin` varchar(20) not null,
-    `ending_value` float not null,
-    `lease_fee` float not null,
-    `total_cost` float not null,
-    `monthly_payment` float not null,
-    constraint `pk_lease_contracts` primary key(`id`),
-    constraint `fk_lease_contracts` foreign key(`vin`) references `vehicles`(`vin`)
+CREATE TABLE `lease_contracts`(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `contract_date` DATE NOT NULL, 
+    `name` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(50) NOT NULL,
+    `vin` VARCHAR(20) NOT NULL,
+    `ending_value` FLOAT NOT NULL,
+    `lease_fee` FLOAT NOT NULL,
+    `total_cost` FLOAT NOT NULL,
+    `monthly_payment` FLOAT NOT NULL,
+    CONSTRAINT `pk_lease_contracts` PRIMARY KEY(`id`),
+    CONSTRAINT `fk_lease_contracts` FOREIGN KEY(`vin`) REFERENCES `vehicles`(`vin`)
 );
 
 -- Add data to tables
 
 -- Dealership data
-insert into `dealerships`(`name`, `address`, `phone`) 
-    values('Car World', '123 Main St', '555-123-4567');
+INSERT INTO `dealerships`(`name`, `address`, `phone`) 
+    VALUES('Car World', '123 Main St', '555-123-4567'),
+          ('Speed Motors', '789 Pine Rd', '555-345-6789'),
+          ('Luxury Cars', '321 Maple Dr', '555-456-7890'),
+          ('Prime Auto Sales', '987 Cedar Ln', '555-678-9012');
 
 -- Vehicles Data
-insert into `vehicles`(`vin`, `year`, `make`, `model`, `type`, `color`, `odometer`, `price`, `sold`)
-    values('10234', 2015, 'Toyota', 'Camry','Sedan', 'Silver', 12000, 15995.0, false),
-          ('10112', 1993, 'Ford', 'Explorer','SUV', 'Red', 525123, 995.0, true),
-          ('37846', 2021, 'Chevrolet', 'Black','Silverado', 'Sedan', 2750, 31995.0, true);
-          
-insert into `inventory`(`dealership_id`,`vin`)
-		values(1,'10234'),
-			  (1,'10112'),
-			  (1,'37846');
+INSERT INTO `vehicles`(`vin`, `year`, `make`, `model`, `type`, `color`, `odometer`, `price`, `sold`)
+    VALUES('2G1FB1E30H9187654', 2015, 'Toyota', 'Camry', 'Sedan', 'Silver', 12000, 15995.0, false),
+          ('1FTFW1E56LFA12345', 1993, 'Ford', 'Explorer', 'SUV', 'Red', 525123, 995.0, true),
+          ('5NMS2CAD6LH123456', 2021, 'Chevrolet', 'Silverado', 'Truck', 'Black', 2750, 31995.0, true),
+          ('1C4RJFAG1LL123456', 2020, 'Jeep', 'Grand Cherokee', 'SUV', 'Black', 25500, 42995.0, false),
+          ('3VW4T7AT1JM234567', 2019, 'Volkswagen', 'Golf', 'Hatchback', 'Blue', 18000, 19995.0, true),
+          ('2G1WB5E39E1187654', 2017, 'Chevrolet', 'Malibu', 'Sedan', 'White', 35000, 16995.0, false),
+          ('5NMS2CAD7LH234567', 2022, 'Hyundai', 'Santa Fe', 'SUV', 'Green', 5000, 35995.0, true),
+          ('1FTEX1CB6HK123456', 2018, 'Ford', 'F-150', 'Truck', 'Gray', 22000, 28995.0, true);
+
+-- Inventory Data         
+INSERT INTO `inventory`(`dealership_id`, `vin`)
+    VALUES(1, '2G1FB1E30H9187654'),
+          (1, '1FTFW1E56LFA12345'),
+          (1, '5NMS2CAD6LH123456'),
+          (2, '1C4RJFAG1LL123456'),
+          (2, '3VW4T7AT1JM234567'),
+          (3, '2G1WB5E39E1187654'),
+          (3, '5NMS2CAD7LH234567'),
+          (4, '1FTEX1CB6HK123456');
 
 -- Sales Contract Data
-insert into `sales_contracts`(`contract_date`, `name`, `email`, `vin`, `sales_tax`, `recording_fee`, `processing_fee`, `total_cost`, `financed`, `monthly_payment`)
-    values('2021-09-28', 'Dana Wyatt', 'dana@texas.com', '10112', 995.0, 49.75, 100.0, 295.0, false, 0.0);
+INSERT INTO `sales_contracts`(`contract_date`, `name`, `email`, `vin`, `sales_tax`, `recording_fee`, `processing_fee`, `total_cost`, `financed`, `monthly_payment`)
+    VALUES('2021-09-28', 'Dana Wyatt', 'dana@texas.com', '1FTFW1E56LFA12345', 995.0, 49.75, 100.0, 295.0, false, 0.0),
+          ('2023-01-21', 'Emily Clark', 'emily.clark@email.com', '3VW4T7AT1JM234567', 1200.0, 55.00, 120.0, 385.0, true, 600.50),
+          ('2020-11-05', 'Oliver Harris', 'oliver.harris@email.com', '5NMS2CAD7LH234567', 1050.0, 60.00, 110.0, 350.0, false, 0.0);
 
 -- Lease Contract Data
-insert into `lease_contracts`(`contract_date`, `name`, `email`, `vin`, `ending_value`, `lease_fee`, `total_cost`, `monthly_payment`)
-    values('2021-09-28', 'Zachary Westly', 'zach@texas.com', '37846', 15997.5, 2239.65, 18237.15, 538.43);
+INSERT INTO `lease_contracts`(`contract_date`, `name`, `email`, `vin`, `ending_value`, `lease_fee`, `total_cost`, `monthly_payment`)
+    VALUES('2021-09-28', 'Zachary Westly', 'zach@texas.com', '5NMS2CAD6LH123456', 15997.5, 2239.65, 18237.15, 538.43);
