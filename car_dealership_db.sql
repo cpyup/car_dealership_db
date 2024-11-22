@@ -75,9 +75,9 @@ insert into `dealerships`(`name`, `address`, `phone`)
 
 -- Vehicles Data
 insert into `vehicles`(`vin`, `year`, `make`, `model`, `type`, `color`, `odometer`, `price`, `sold`)
-    values('10234', 2015, 'Toyota', 'Camry', 'Silver','Sedan', 12000, 15995.0, false),
-          ('10112', 1993, 'Ford', 'Explorer', 'Red','SUV', 525123, 995.0, true),
-          ('37846', 2021, 'Chevrolet', 'Silverado', 'Black', 'Sedan', 2750, 31995.0, true);
+    values('10234', 2015, 'Toyota', 'Camry','Sedan', 'Silver', 12000, 15995.0, false),
+          ('10112', 1993, 'Ford', 'Explorer','SUV', 'Red', 525123, 995.0, true),
+          ('37846', 2021, 'Chevrolet', 'Black','Silverado', 'Sedan', 2750, 31995.0, true);
           
 insert into `inventory`(`dealership_id`,`vin`)
 		values(1,'10234'),
